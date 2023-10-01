@@ -1,8 +1,9 @@
 import {logger} from '../../services/logger.service.js'
-import {socketService} from '../../services/socket.service.js'
+// import {socketService} from '../../services/socket.service.js'
 import {userService} from '../user/user.service.js'
 import {authService} from '../auth/auth.service.js'
 import {reviewService} from './review.service.js'
+import { toyService } from '../toy/toy.service.js'
 
 export async function getReviews(req, res) {
     try {
@@ -35,11 +36,13 @@ export async function addReview(req, res) {
  
     try {
         var review = req.body
+        console.log('review4', review)
         review.byUserId = loggedinUser._id
         review = await reviewService.add(review)
         
         // prepare the updated review for sending out
-        review.aboutUser = await userService.getById(review.aboutUserId)
+        review.aboutToy = await toyService.getById(review.aboutToyId)
+        console.log('hellow', review)
         
         // Give the user credit for adding a review
         // var user = await userService.getById(review.byUserId)
@@ -53,14 +56,14 @@ export async function addReview(req, res) {
         const loginToken = authService.getLoginToken(loggedinUser)
         res.cookie('loginToken', loginToken)
 
-        delete review.aboutUserId
+        delete review.aboutToyId
         delete review.byUserId
 
-        socketService.broadcast({type: 'review-added', data: review, userId: loggedinUser._id})
-        socketService.emitToUser({type: 'review-about-you', data: review, userId: review.aboutUser._id})
+        // socketService.broadcast({type: 'review-added', data: review, userId: loggedinUser._id})
+        // socketService.emitToUser({type: 'review-about-you', data: review, userId: review.aboutUser._id})
         
-        const fullUser = await userService.getById(loggedinUser._id)
-        socketService.emitTo({type: 'user-updated', data: fullUser, label: fullUser._id})
+        // const fullUser = await userService.getById(loggedinUser._id)
+        // socketService.emitTo({type: 'user-updated', data: fullUser, label: fullUser._id})
 
         res.send(review)
 
