@@ -75,12 +75,13 @@ async function update(toy) {
             name: toy.name,
             price: toy.price,
             inStock: toy.inStock,
+            review: toy.review,
         }
         const collection = await dbService.getCollection('toys')
         await collection.updateOne({ _id: ObjectId(toy._id) }, { $set: toyToSave })
         return toy
     } catch (err) {
-        logger.error(`cannot update toy ${toyId}`, err)
+        logger.error(`cannot update toy ${toy}`, err)
         throw err
     }
 }
