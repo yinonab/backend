@@ -1,4 +1,4 @@
 export default {
-    dbURL: 'mongodb+srv://theUser:thePass@cluster0-klgzh.mongodb.net/test?retryWrites=true&w=majority',
-    dbName: 'tester_db',
+    dbURL: 'mongodb+srv://yinonabarjel:Wishime1@cluster0.pn2bkb6.mongodb.net/?retryWrites=true&w=majority',
+    dbName: 'toyDB',
 }
