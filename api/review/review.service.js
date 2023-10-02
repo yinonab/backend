@@ -93,8 +93,8 @@ async function add(review) {
 
 function _buildCriteria(filterBy) {
     const criteria = {}
-    if (filterBy.byUserId) criteria.byUserId = filterBy.byUserId
-    if (filterBy.aboutToyId) criteria.aboutToyId = filterBy.aboutToyId
+    if (filterBy.byUserId) criteria.byUserId = ObjectId(filterBy.byUserId)
+    if (filterBy.aboutToyId) criteria.aboutToyId = ObjectId(filterBy.aboutToyId)
     return criteria
 }
 
